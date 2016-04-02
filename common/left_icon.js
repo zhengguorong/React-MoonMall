@@ -22,10 +22,10 @@ var styles = StyleSheet.create({
   go:{
     borderLeftWidth: 4 * Util.pixel,
     borderBottomWidth: 4 * Util.pixel,
-    width:15,
-    height:15,
+    width:13,
+    height:13,
     transform: [{rotate: '45deg'}],
     borderColor:'#FFF',
-    marginLeft:10
+    marginLeft:15
   }
 });

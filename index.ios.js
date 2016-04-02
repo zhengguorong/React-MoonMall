@@ -9,8 +9,7 @@ import React, {
   StyleSheet,
   Text,
   View,
-  TabBarIOS,
-  NavigatorIOS
+  TabBarIOS
 } from 'react-native';
 
 var MoonHome=require('./MoonHome/index');
@@ -22,7 +21,7 @@ class MoonMall extends Component {
   constructor(props){
       super(props);
       this.state={
-          selectedTab:'moonHome'
+          selectedTab:'moonMall'
       }
   }
   render() {
@@ -64,7 +63,7 @@ class MoonMall extends Component {
                         selectedTab: 'moonMall'
                     });
                 }}>
-                 <Navigation component={Mall}/>
+                 <Navigation component={Mall} selected={this.state.selectedTab==='moonMall'}/>
             </TabBarIOS.Item>      
             <TabBarIOS.Item
                 title='购物车'

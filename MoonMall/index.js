@@ -15,114 +15,145 @@ var {
 } = React;
 var Util = require('../common/util');
 var ServerUrl = require('../common/server');
+var CategoryMenu = require('./category');
+var Detail = require('./detail');
 
-module.exports=React.createClass({
-    getInitialState: function(){
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+
+module.exports = React.createClass({
+    getInitialState: function() {
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
         return {
             dataSource: ds.cloneWithRows([]),
-            show:false
+            show: false,
+            showCategory: false,
         };
     },
-    render: function(){
-        return ( 
+    //父状态更新的时候之行
+    componentWillReceiveProps:function(){
+       this.setState({
+           showCategory:this.props.selected
+       })
+    },  
+    render: function() {
+        return (
             <View style={styles.flex}>
-            <View style={styles.titleView}>
-                <Text style={styles.titleText}>月亮商城</Text>
-                <View style={styles.navRightBtn}>
-                    <Image source={require("image!icon_category")}/> 
-                    <Text style={styles.navRightText}>分类</Text>
+                <CategoryMenu isVisible={this.state.showCategory}></CategoryMenu>
+                <View style={styles.titleView}>
+                    <View style={styles.navBtn}></View>
+                    <Text style={styles.titleText}>月亮商城</Text>
+                    <TouchableOpacity onPress={this._toggleCategory}>
+                        <View style={styles.navBtn}>
+                            <View style={styles.categoryBtn}>
+                                <Image source={require("image!icon_category") }/>
+                                <Text style={styles.navRightText}>分类</Text>
+                            </View>
+                        </View>
+
+                    </TouchableOpacity>
                 </View>
-            </View>
-            <ScrollView style={{marginTop:0}} contentOffset={ { y:20 }} contentInset={{top:-20}}>
-                <ListView 
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow} 
-                />
-            </ScrollView>
+                <ScrollView style={{ marginTop: 0 }} contentOffset={ { y: 20 }} contentInset={{ top: -20 }}>
+                    <ListView
+                        dataSource={this.state.dataSource}
+                        renderRow={this._renderRow}
+                        />
+                </ScrollView>
             </View>
         );
     },
-    componentDidMount: function(){
+    componentDidMount: function() {
         this._getData();
     },
-    _renderRow: function(row){
-      return (
-          <View>
-          <TouchableWithoutFeedback onPress={this._toDetail.bind(this,row.id)}>
-            <Image 
-                style={{resizeMode:'contain',height:Util.size.width/row.rePicUrlInfo.width*row.rePicUrlInfo.height}}
-                source={{uri:row.rePicUrlInfo.picUrl}}>
-                <TouchableOpacity style={styles.addCartBtn} onPress={this._addCart}><Text style={styles.addCartBtnText}>加入购物车</Text>
-                </TouchableOpacity>
-                </Image>
-          </TouchableWithoutFeedback>
-          </View>
-      )  
+    _renderRow: function(row) {
+        return (
+            <View>
+                <TouchableWithoutFeedback onPress={this._toDetail.bind(this, row.id) }>
+                    <Image
+                        style={{ resizeMode: 'contain', height: Util.size.width / row.rePicUrlInfo.width * row.rePicUrlInfo.height }}
+                        source={{ uri: row.rePicUrlInfo.picUrl }}>
+                        <TouchableOpacity style={styles.addCartBtn} onPress={this._addCart}><Text style={styles.addCartBtnText}>加入购物车</Text>
+                        </TouchableOpacity>
+                    </Image>
+                </TouchableWithoutFeedback>
+            </View>
+        )
     },
-    _getData: function(){
-        var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        var that=this;
-        Util.post(ServerUrl.mall_home_getRecommendItem,{"recommendType":"all"},function(data){
-            if(data&&data.isSuccess){
+    _getData: function() {
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        var that = this;
+        Util.post(ServerUrl.mall_home_getRecommendItem, { "recommendType": "all" }, function(data) {
+            if (data && data.isSuccess) {
                 that.setState({
                     dataSource: ds.cloneWithRows(data.itemRecommentList),
-                    show:true
+                    show: true
                 })
             }
-        },function(err){
-            alert(err)
+        }, function(err) {
+            console.log(err)
         })
     },
-    _addCart: function(){
+    //加入购物车
+    _addCart: function() {
         alert("添加购物车成功")
     },
-    _toDetail: function(id){
-        alert("toDetail")
+    //跳转到商品详情
+    _toDetail: function(id) {
+        this.props.navigator.push({
+            component: Detail,
+            passProps: {
+                itemId:id,
+                backName: '',
+                title: '商品详情',
+            }
+        });
+    },
+    //显示或者隐藏分类列表
+    _toggleCategory: function() {
+        this.setState({
+            showCategory: !this.state.showCategory
+        })
     }
+
 })
 var styles = StyleSheet.create({
-        titleView:{
+    titleView: {
         backgroundColor: '#0058f1',
-        paddingTop:30,
-        paddingBottom:5,
-        flexDirection:'row',
+        paddingTop: 30,
+        paddingBottom: 5,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    titleText:{
+    titleText: {
         color: '#FFFFFF',
-        fontWeight:'bold',
-        flex:1,
-        fontSize:16,
+        fontWeight: 'bold',
+        fontSize: 16,
         textAlign: 'center',
     },
-    navRightBtn:{
-        marginTop:-5,
-        marginRight:10,
-        alignItems:'center'
+    navBtn: {
+        width: 40,
+        marginTop: -5,
+        alignItems: 'center'
     },
-    navRightText:{
-        fontSize:9,
-        color:'#fff'
+    categoryBtn: {
+        width: 30,
+        alignItems: 'center'
     },
-  flex:{
-    flex: 1,
-  },
-  list_item:{
-    lineHeight:25,
-    fontSize:16,
-    marginLeft:10,
-    marginRight:10
-  },
-  addCartBtn:{
-      position:'absolute',
-      right:2,
-      bottom:7,
-      backgroundColor:'#f13d40',
-      padding:3,
-      borderRadius:2
-  },
-  addCartBtnText:{
-      fontSize:11,
-      color:'#fff'
-  }
+    navRightText: {
+        fontSize: 9,
+        color: '#fff',
+    },
+    flex: {
+        flex: 1,
+    },
+    addCartBtn: {
+        position: 'absolute',
+        right: 2,
+        bottom: 7,
+        backgroundColor: '#f13d40',
+        padding: 3,
+        borderRadius: 2
+    },
+    addCartBtnText: {
+        fontSize: 11,
+        color: '#fff'
+    }
 });

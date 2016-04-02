@@ -3,63 +3,65 @@ var Icon = require('./left_icon');
 var Util = require('./../common/util');
 
 var {
-  StyleSheet,
-  Text,
-  View,
-  ListView,
-  Image,
-  ScrollView,
-  TouchableOpacity
-  } = React;
+    StyleSheet,
+    Text,
+    View,
+    ListView,
+    Image,
+    ScrollView,
+    TouchableOpacity
+} = React;
 
 module.exports = React.createClass({
-  render: function(){
-    var obj = this.props.initObj;
-    return (
-      <View style={[styles.header, styles.row, styles.center]}>
-        <TouchableOpacity style={[styles.row,styles.center]} onPress={this._pop}>
-          <Icon/>
-          <Text style={styles.fontFFF}>{obj.backName}</Text>
-        </TouchableOpacity>
-        <View style={[styles.title, styles.center]}>
-          <Text style={[styles.fontFFF, styles.titlePos]} numberOfLines={1}>{obj.title}</Text>
-        </View>
-      </View>
-    );
-  },
+    render: function() {
+        var initObj = this.props.initObj;
+        return (
 
-  _pop: function(){
-    this.props.navigator.pop();
-  }
+            <View style={styles.titleView}>
+                <View style={styles.leftBtn}>
+                    <TouchableOpacity style={{flexDirection:'row'}} onPress={this._pop}>
+                        <Icon/>
+                        <Text style={styles.fontFFF}>{initObj.backName}</Text>
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.titleText}>{initObj.title}</Text>
+                <View style={styles.rightBtn}><Text></Text></View>
+            </View>
+        );
+    },
+
+    _pop: function() {
+        this.props.navigator.pop();
+    }
 });
 
 var styles = StyleSheet.create({
-  row:{
-    flexDirection:'row'
-  },
-  header:{
-    backgroundColor:'#0058f1',
-    paddingTop:35,
-    paddingBottom:10
-  },
-  fontFFF:{
-    color:'#fff',
-    fontSize:17,
-    fontWeight:'bold'
-  },
-  title:{
-    flex:1
-  },
-  titlePos:{
-    color: '#FFFFFF',
-    textAlign: 'center',
-    fontWeight:'bold',
-    flex:1,
-    fontSize:30
-  },
-  center:{
-    justifyContent:'center',
-    alignItems:'center'
-  }
+    titleView: {
+        backgroundColor: '#0058f1',
+        paddingTop: 30,
+        paddingBottom: 5,
+        height:60,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    titleText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 16,
+        textAlign: 'center',
+    },
+    leftBtn:{
+        width:40,
+    },
+    rightBtn:{
+        width:40,
+    },
+    fontFFF:{
+        color:'#FFFFFF',
+        fontSize:14
+    },
+    font000:{
+        backgroundColor:'#000'
+    }
 });
 
