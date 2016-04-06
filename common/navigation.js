@@ -15,7 +15,7 @@ module.exports = React.createClass({
     return(
       <Navigator
         initialRoute={{name: '', component: this.props.component, index:0}}
-        configureScene={()=>{return Navigator.SceneConfigs.Custom;}}
+        configureScene={()=>{return Navigator.SceneConfigs.FloatFromRight;}}
         renderScene={(route, navigator) => {
           const Component = route.component;
           return (

@@ -15,6 +15,7 @@ var {
 var Util = require('../common/util');
 var ServerUrl = require('../common/server');
 var Header = require('../common/header');
+var Counter = require('../common/Counder');
 var Comment = require('./CommentList');
 var Swiper = require('react-native-swiper')
 
@@ -27,12 +28,13 @@ module.exports = React.createClass({
             productInfo:{}
         }
     },
+    
     componentDidMount: function() {
         this._getData();
     },
     render: function() {
         return (
-            <View >
+            <View style={{backgroundColor:'#fff'}}>
                 <Header initObj={this.props} navigator={this.props.navigator}/>
                 <ScrollView style={{ height: Util.size.height - 160 }}>
                     <View>
@@ -62,19 +64,7 @@ module.exports = React.createClass({
                         </View>
                         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                             <Text style={{ fontSize: 14, color: '#999999' }}>数量：</Text>
-                            <View style={{ marginLeft: 10, flexDirection: 'row' }}>
-                                <TouchableOpacity onPress={this._reduce}>
-                                    <View style={{ width: 30, height: 30, backgroundColor: '#f9fafa', borderBottomLeftRadius: 2, borderTopLeftRadius: 2, borderColor: '#b5b5b5', justifyContent: 'center', borderWidth: Util.pixel, alignItems: 'center' }}>
-                                        <Text style={{ color: '#888888', fontSize: 20 }}>-</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TextInput keyboardType={'numeric'} maxLength={100} value={this.state.buyCount} style={{ width: 40, height: 30, textAlign: 'center', borderLeftWidth: 0, borderRightWidth: 0, borderColor: '#b5b5b5', borderWidth: Util.pixel }}/>
-                                <TouchableOpacity onPress={this._add}>
-                                    <View style={{ width: 30, height: 30, backgroundColor: '#f9fafa', borderBottomRightRadius: 2, borderTopRightRadius: 2, borderColor: '#b5b5b5', justifyContent: 'center', borderWidth: Util.pixel, alignItems: 'center' }}>
-                                        <Text style={{ color: '#888888', fontSize: 20 }}>+</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            <Counter size='big'/>
                         </View>
                     </View>
                     <View style={[styles.line]}></View>

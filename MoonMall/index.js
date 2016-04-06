@@ -15,8 +15,9 @@ var {
 } = React;
 var Util = require('../common/util');
 var ServerUrl = require('../common/server');
-var CategoryMenu = require('./category');
-var Detail = require('./detail');
+var CategoryMenu = require('./Category');
+var Detail = require('./Detail');
+
 
 
 module.exports = React.createClass({
@@ -28,16 +29,19 @@ module.exports = React.createClass({
             showCategory: false,
         };
     },
-    //父状态更新的时候之行
+    //父状态更新的时候执行
     componentWillReceiveProps:function(){
        this.setState({
-           showCategory:this.props.selected
+           showCategory:false
        })
-    },  
+    },
+    componentWillUnmount:function(){
+      console.log("componentWillUnmount")  
+    },
     render: function() {
         return (
             <View style={styles.flex}>
-                <CategoryMenu isVisible={this.state.showCategory}></CategoryMenu>
+                <CategoryMenu isVisible={this.state.showCategory}  navigator={this.props.navigator}></CategoryMenu>
                 <View style={styles.titleView}>
                     <View style={styles.navBtn}></View>
                     <Text style={styles.titleText}>月亮商城</Text>

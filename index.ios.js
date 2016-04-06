@@ -15,6 +15,7 @@ import React, {
 var MoonHome=require('./MoonHome/index');
 var MoonFriend=require('./MoonFriend/index');
 var Mall = require('./MoonMall/index');
+var Cart = require('./MoonCart/Cart');
 var Navigation = require('./common/navigation');
 
 class MoonMall extends Component {
@@ -63,7 +64,7 @@ class MoonMall extends Component {
                         selectedTab: 'moonMall'
                     });
                 }}>
-                 <Navigation component={Mall} selected={this.state.selectedTab==='moonMall'}/>
+                 <Navigation component={Mall}/>
             </TabBarIOS.Item>      
             <TabBarIOS.Item
                 title='购物车'
@@ -75,7 +76,7 @@ class MoonMall extends Component {
                         selectedTab: 'cart'
                     });
                 }}>
-                 <Text>月亮之家</Text>
+                 <Navigation component={Cart}/>
             </TabBarIOS.Item>    
             <TabBarIOS.Item
                 title='我的'

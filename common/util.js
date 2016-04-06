@@ -15,11 +15,19 @@ var {
 module.exports = {
   /*最小线宽*/
   pixel: 1 / PixelRatio.get(),
+  
 
   /*屏幕尺寸*/
   size: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height
+  },
+  getDisplayPrice:function(price){
+      if(price){
+         return (price/100).toFixed(2);
+      }else{
+          return "00.00"
+      }
   },
   /**
    * 基于fetch的get方法

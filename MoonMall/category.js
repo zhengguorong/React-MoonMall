@@ -11,6 +11,7 @@ var {
 var Util = require('../common/util');
 var ServerUrl = require('../common/server');
 var Overlay = require('react-native-overlay');
+var ProductList=require('./ProductList');
 
 
 module.exports = React.createClass({
@@ -39,11 +40,11 @@ module.exports = React.createClass({
     },
     _renderRow: function(row) {
         return (
-            <TouchableOpacity onPress={this._toProductList.bind(this,row.cid)}>
-            <View>
-                <Text style={styles.rowText}>{row.name}</Text>
-                <View style={styles.line}></View>
-            </View>
+            <TouchableOpacity onPress={this._toProductList.bind(this, row.cid) }>
+                <View>
+                    <Text style={styles.rowText}>{row.name}</Text>
+                    <View style={styles.line}></View>
+                </View>
             </TouchableOpacity>
         )
     },
@@ -60,35 +61,42 @@ module.exports = React.createClass({
             console.log(err)
         })
     },
-    _toProductList:function(categoryId){
-        console.log(categoryId)
+    _toProductList: function(categoryId) {
+        this.props.navigator.push({
+            component: ProductList,
+            passProps: {
+                categoryId: categoryId,
+                backName: '',
+                title: '商品列表',
+            }
+        });
     }
 
 })
 var styles = StyleSheet.create({
-    container: { 
-        backgroundColor: '#fff', 
-        position: 'absolute', 
-        right: 6, 
-        top: 70, 
-        borderRadius: 4, 
-        width:130,
-        height:265
+    container: {
+        backgroundColor: '#fff',
+        position: 'absolute',
+        right: 6,
+        top: 70,
+        borderRadius: 4,
+        width: 130,
+        height: 265
     },
-    rowContainer:{
-      paddingLeft:12,
-      paddingTop:15,
-      paddingBottom:15,
+    rowContainer: {
+        paddingLeft: 12,
+        paddingTop: 15,
+        paddingBottom: 15,
     },
-    rowText:{
-        fontSize:14,
-        marginTop:15,
-        marginLeft:15,
-        marginBottom:15,
+    rowText: {
+        fontSize: 14,
+        marginTop: 15,
+        marginLeft: 15,
+        marginBottom: 15,
     },
-    line:{
-        height:Util.pixel,
-        backgroundColor:'#ebebeb'
+    line: {
+        height: Util.pixel,
+        backgroundColor: '#ebebeb'
     }
-        
+
 })
